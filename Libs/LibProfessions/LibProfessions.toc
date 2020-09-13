@@ -1,0 +1,11 @@
+## Interface: 80205
+
+## Title: Lib: Professions
+## Author: datagutten
+## Version: v0.7
+## Notes: Tools to work with profession data
+## X-Curse-Project-ID: 342783
+
+LibProfessions.lua
+ProfessionApi.lua
+CurrentProfession.lua

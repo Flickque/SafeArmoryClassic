@@ -1,0 +1,33 @@
+## Interface: 11300
+## Title: SafeArmory|cffff0000Classic|r
+## Notes: Export charachter info, equipment, bag and bank items, professions, reputations, talents for SafeArmoryClassic.
+## Author: Flickque, SafeArmory team
+## Version: 1.0
+## URL: https://classic.safe-armory.com/
+## OptionalDeps: LibStub, LibCopyPaste-1.0, Ace3, LibDeflate, JSON.lua
+## SavedVariables:SafeArmoryClassicDB, SafeArmoryClassicData
+
+Libs\LibStub\LibStub.lua
+
+Libs\JSON.lua\json.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+Libs\Ace3\AceAddon-3.0\AceAddon-3.0.xml
+Libs\Ace3\AceDB-3.0\AceDB-3.0.xml
+Libs\Ace3\AceConsole-3.0\AceConsole-3.0.xml
+Libs\Ace3\AceLocale-3.0\AceLocale-3.0.xml
+
+Libs\LibCopyPaste-1.0\LibCopyPaste-1.0.lua
+Libs\LibDeflate\LibDeflate.lua
+
+Libs\LibProfessions\ProfessionApi.lua
+Libs\LibProfessions\LibProfessions.lua 
+Libs\LibProfessions\CurrentProfession.lua
+
+Locales\enUS.lua
+
+Core.lua
+Data.lua
+Security.lua
+
