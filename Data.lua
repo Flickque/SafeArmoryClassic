@@ -507,10 +507,7 @@ function Sa:GetAllData()
 	data['talents'] = Sa:GetTalentsData()
 	data['info'] = Sa:GetPlayerData()
 	data['counts'] = Sa:GetBagBankCounts()
-	
-	
-		--data['security'] = Sa:Security()
-
+	data['security'] = Sa:Security()
 
 	return data
 

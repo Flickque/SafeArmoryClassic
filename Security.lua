@@ -123,9 +123,7 @@ function Sa:Security()
 	local isBNet = C_AccountInfo.IsGUIDBattleNetAccountType(playerData.guid)
 	local settings = {
 		time = time(),
-		serverTime = GetServerTime(),
-		localTime = C_DateAndTime.GetCurrentCalendarTime(),				
-		unixLocalTime = C_DateAndTime.GetServerTimeLocal(),
+		serverTime = GetServerTime(),		
 		locale = GetLocale(),
 		version = version,
 		build = build,
@@ -135,8 +133,6 @@ function Sa:Security()
 	local bnet = {
 		isBNet = isBNet,
 		isLocalUser = C_AccountInfo.IsGUIDRelatedToLocalAccount(playerData.guid),
-		gameAccountInfo = C_BattleNet.GetGameAccountInfoByGUID(playerData.guid),
-		accountInfo = C_BattleNet.GetAccountInfoByGUID(playerData.guid)
 	}
 	table.insert(s, settings);
 	table.insert(s, bnet);	
