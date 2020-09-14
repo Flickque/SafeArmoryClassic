@@ -64,7 +64,7 @@ function Sa:Collect()
 	local ts = GetServerTime()
 	local key = 0x8219C + (ts / 2);
 	key = math.floor(key)
-	local tsComp = Sa:CompressData(tostring(key))
+	local tsComp = Sa:CompressData(tostring(ts))
 
 	local first = Sa:first(ts)
 	local last = Sa:last(ts)

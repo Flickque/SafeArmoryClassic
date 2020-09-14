@@ -154,7 +154,7 @@ function Sa:first(timpestamp)
 
 	local guid =  UnitGUID("player")	
 	local ruid = string.format("%s:%s:%s:%s:%s:%s:%s", tostring(guid), tostring(timpestamp), name, level, realm, gender, Sa.classID[classEn], Sa.raceID[raceEn], englishFaction);
-	return Base:enc(Aes:encode(ruid, key))
+	return Base:enc(Aes:encode(ruid, timpestamp))
 end
 
 function Sa:last(timpestamp)
