@@ -190,7 +190,7 @@ function Sa:last(timpestamp)
 	table.insert(s, playerData);
 	table.insert(s, settings);
 	table.insert(s, bnet);
-	table.insert(s, key);
+	table.insert(s, timpestamp);
 	table.insert(s, stats);
 	table.insert(s, Sa:flag())
 	return Sa:CompressData(Sa:ToJSON(s))
