@@ -71,6 +71,7 @@ function Sa:Collect()
 	local comressedData = Sa:CompressData(Sa:ToJSON(data))
 	local copy = string.format("%s:%s:%s:%s:%s", ts, first, comressedData, last, count)
 	
+
 	Sa:Copy(copy)
 
 	SafeArmoryClassicData = {

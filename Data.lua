@@ -152,6 +152,63 @@ function Sa.fnc:s_bbn()
 end
 
 ----------------------------------------------------------------------------
+---- ParseItemTooltip
+--
+
+local tooltip
+local function GetTooltip()
+
+	if not tooltip then
+		tooltip = CreateFrame("GameTooltip", "SaScanningTooltip", nil, "GameTooltipTemplate")
+		tooltip:SetOwner(UIParent, "ANCHOR_NONE")
+	end
+
+	return tooltip
+
+end
+
+local function GetItemTooltip(bagId, slotId, link)
+
+	local tooltip = GetTooltip()
+
+	tooltip:ClearLines()
+	if bagId then
+		tooltip:SetBagItem(bagId, slotId)
+	elseif slotId then
+		tooltip:SetInventoryItem("player", slotId)
+	else
+		tooltip:SetHyperlink(link)
+	end
+
+	return tooltip
+
+end
+
+local function GetItemLevel(bagId, slotId, link)	
+
+	local itemLevelPattern = _G["ITEM_LEVEL"]:gsub("%%d", "(%%d+)")
+	local tooltipItem = GetItemTooltip(bagId, slotId, link)
+	local data = {}
+	local regions = { tooltipItem:GetRegions() }
+	for i, region in ipairs(regions) do
+		if region and region:GetObjectType() == "FontString" then
+			local text = region:GetText()
+			if text then
+				data[#data+1] = text
+				ilvl = tonumber(text:match(itemLevelPattern))
+				--if ilvl then
+				--	return ilvl
+				--end
+			end
+        end	
+	end
+	
+	return data
+
+end
+
+
+----------------------------------------------------------------------------
 ---- Character Data
 --
 
@@ -244,6 +301,8 @@ local function GetBagItems()
 	return function()
 		while bag < 5 do
 			local item = Item:CreateFromBagAndSlot(bag, slot)
+			local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bag, slot)
+			local tooltip = GetItemLevel(bag,slot,itemLink)
 			slot = slot + 1
 			if slot > slots then
 				bag = bag + 1
@@ -251,6 +310,7 @@ local function GetBagItems()
 				slots = GetContainerNumSlots(bag)
 			end
 			if not item:IsItemEmpty() then
+				item.tooltip = tooltip
 				return item
 			end
 		end
@@ -267,7 +327,8 @@ local function GetBankItems()
 	return function()
 		while bag <= (NUM_BAG_SLOTS + NUM_BANKBAGSLOTS) do
 			local item = Item:CreateFromBagAndSlot(bag, slot)
-			local _, itemCount = GetContainerItemInfo(bag, slot)
+			local _, itemCount, _, _, _, _, itemLink = GetContainerItemInfo(bag, slot)
+			local tooltip = GetItemLevel(bag,slot,itemLink)
 			slot = slot + 1
 			if slot > slots then
 				if bag == -1 then
@@ -280,6 +341,7 @@ local function GetBankItems()
 			end
 			if not item:IsItemEmpty() then		
 				item.count = itemCount
+				item.tooltip = tooltip
 				return item
 			end
 		end
@@ -305,6 +367,7 @@ function Sa:GetBagItemsData()
 			local _, itemLink = GetItemInfo(id) 	
 			local itemInfo = GetItemInfoData(itemLink)
 			itemInfo.count = GetItemCount(id, false, false)  	
+			itemInfo.tooltip = item.tooltip
 			items[#items+1] = itemInfo
 		end
 	end
@@ -332,6 +395,7 @@ function Sa:GetBankItemsData()
 			local _, itemLink = GetItemInfo(id) 		
 			local itemInfo = GetItemInfoData(itemLink)
 			itemInfo.count = item.count
+			itemInfo.tooltip = item.tooltip
 			items[#items+1] = itemInfo
 		else
 			collectedItems[id].count = collectedItems[id].count + 1
@@ -471,7 +535,9 @@ function Sa:GetEquippedItemsData()
 		slotID = GetInventorySlotInfo(Sa.equipCategories[i])
 		if ( GetInventoryItemLink("player", slotID) ) then
 			local itemLink = GetInventoryItemLink("player", slotID)
-			items[Sa.equipCategories[i]] = GetItemInfoData(itemLink)
+			local itemData = GetItemInfoData(itemLink)
+			itemData.tooltip = GetItemLevel(false,slotID,itemLink)
+			items[Sa.equipCategories[i]] = itemData
 		else
 			items[Sa.equipCategories[i]] = {}
 		end	    
