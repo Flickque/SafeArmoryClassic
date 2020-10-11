@@ -24,7 +24,7 @@ Sa.classID = {
     ["WARLOCK"] = 9,
     ["MONK"] = 10,
     ["DRUID"] = 11,
-	["DEMONHUNTER"] = 12,
+    ["DEMONHUNTER"] = 12,
 }
 
 Sa.raceID = {
@@ -83,13 +83,13 @@ Sa.standings = { "Unknown", "Hated", "Hostile", "Unfriendly", "Neutral", "Friend
 ---- Utils
 --
 
-local function dump(t)
+function Sa:dump(t)
 
 	if type(t) == 'table' then
 	   local s = '{ '
 	   for k,v in pairs(t) do
 		  if type(k) ~= 'number' then k = '"'..k..'"' end
-		  s = s .. '['..k..'] = ' .. dump(v) .. ','
+		  s = s .. '['..k..'] = ' .. Sa:dump(v) .. ','
 	   end
 	   return s .. '} '
 	else
@@ -574,6 +574,7 @@ function Sa:GetAllData()
 	data['info'] = Sa:GetPlayerData()
 	data['counts'] = Sa:GetBagBankCounts()
 	data['security'] = Sa:Security()
+
 
 	return data
 

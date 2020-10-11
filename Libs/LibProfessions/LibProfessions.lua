@@ -137,12 +137,15 @@ function profession:GetProfessions(header)
         local name
         for _, skill_info in ipairs(profession_skills) do
             name = skill_info[1]
+            --[[
             if header=="Professions" or header=="Secondary Skills" then
                 id = self:profession_id(name, skill_info[4])
             else
                 id = "undefinded"
             end
-            skills[name] = {id = id, name = name, skill = skill_info[4], max_skill = skill_info[7], modifier = skill_info[5]}
+            ]]
+            skills[name] = {--id = id,
+            name = name, skill = skill_info[4], max_skill = skill_info[7], modifier = skill_info[5]}
         end
     else
         local prof1, prof2, arch, fish, cook = GetProfessions();

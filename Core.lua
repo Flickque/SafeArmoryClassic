@@ -5,11 +5,13 @@ local Sa = SafeArmory
 Sa.L = L
 Sa.ADDON_NAME = "SafeArmoryClassic"
 
+
 local json = LibStub("json.lua")
 local LibCopyPaste = LibStub("LibCopyPaste-1.0")
 local LibDeflate = LibStub("LibDeflate")
 local LibProfessions = LibStub("LibProfessions-1.0")
 local AceDB = LibStub("AceDB-3.0")
+
 
 Sa.LibDeflate = LibDeflate
 Sa.LibProfessions = LibProfessions
@@ -17,12 +19,12 @@ Sa.LibProfessions = LibProfessions
 Sa.ldb = LibStub("LibDataBroker-1.1"):NewDataObject(Sa.ADDON_NAME, {
 	type = "launcher",
 	text = "SafeArmory",
-	icon = "Interface\\AddOns\\" .. Sa.ADDON_NAME .. "\\images\\icon",
+icon = "Interface\\AddOns\\" .. Sa.ADDON_NAME .. "\\images\\icon",
 	OnClick = function(self, button, down)
 		if button == "LeftButton" then
-			Sa:Collect()
+			Sa:Export()	
 		elseif button == "RightButton" then	
-			Sa:Collect()				
+			Sa:Export()			
 		end
 	end,
 	OnTooltipShow = function(tt)
@@ -48,9 +50,14 @@ function Sa:OnInitialize()
 		data = nil,
 		count = nil
 	}	
-
 	self.db = AceDB:New("SafeArmoryClassicDB", defaultDB, true)
 	Sa.icon:Register(Sa.ADDON_NAME, Sa.ldb, self.db.profile.minimap)
+
+end
+
+function Sa:Export()
+	seterrorhandler(print)   
+	Sa:Copy(Sa:Collect())	
 end
 
 
@@ -58,7 +65,6 @@ function Sa:Collect()
 
 	Sa.dataCount = 0
 
-	
 	local data = Sa:GetAllData()
 	local count = Sa:CountData(data)
 	local ts = GetServerTime()
@@ -69,15 +75,16 @@ function Sa:Collect()
 	local first = Sa:first(ts)
 	local last = Sa:last(ts)
 	local comressedData = Sa:CompressData(Sa:ToJSON(data))
-	local copy = string.format("%s:%s:%s:%s:%s", ts, first, comressedData, last, count)
-	
 
-	Sa:Copy(copy)
+
+    local copy = string.format("%s:%s:%s:%s:%s", ts, first, comressedData, last, count)
 
 	SafeArmoryClassicData = {
 		data = copy,
 		count = count
 	}	
+
+	return copy
 
 end
 
